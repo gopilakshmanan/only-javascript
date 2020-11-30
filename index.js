@@ -68,20 +68,24 @@ btnSave.style = 'margin-right: 3px;'
 btnSave.innerHTML = '<i class="fa fa-save"></i>';
 btnSave.addEventListener('click', event => {
     event.preventDefault();
-    if (modifingKey == -1) {
-        todoList.push({
-            title: titleInput.value,
-            detail: descriptionInput.value
-        });
+    if (titleInput.value.length + descriptionInput.value.length > 0) {
+        if (modifingKey == -1) {
+            todoList.push({
+                title: titleInput.value,
+                detail: descriptionInput.value
+            });
+        } else {
+            todoList[modifingKey].title = titleInput.value;
+            todoList[modifingKey].detail = descriptionInput.value;
+            addEditH2.innerHTML = 'Add TODO'
+            modifingKey = -1;
+        }
+        localStorage.setItem('items', JSON.stringify(todoList))
+        resetFrom();
+        displayList();
     } else {
-        todoList[modifingKey].title = titleInput.value;
-        todoList[modifingKey].detail = descriptionInput.value;
-        addEditH2.innerHTML = 'Add TODO'
-        modifingKey = -1;
+        alert('Please enter Title & Description');
     }
-    localStorage.setItem('items', JSON.stringify(todoList))
-    resetFrom();
-    displayList();
 });
 
 const form = document.createElement('form')
